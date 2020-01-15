@@ -8,11 +8,11 @@ import { PhotoService } from './photos/photo/service.photo';
 })
 export class AppComponent {
 
-  photos : Object[] = [];
+  photos : any[] = [];
 
   constructor(photoService: PhotoService){
     photoService.listFormUser('flavio')
-    .subscribe(photo => this.photos = photo)
+    .subscribe(photo => {photo[0].description; this.photos = photo})
   }
  
 }
