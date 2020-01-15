@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 
+import { PhotoService } from './photos/photo/service.photo';
+
 import { PhotosModule } from './photos/photos.module';
 
 @NgModule({
