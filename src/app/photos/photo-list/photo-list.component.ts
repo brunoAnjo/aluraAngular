@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PhotoService } from '../photo/service.photo';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-photo-list',
@@ -10,10 +11,16 @@ export class PhotoListComponent implements OnInit{
 
   photos : any[] = [];
 
-  constructor(private photoService: PhotoService){}
+  constructor(
+        private photoService: PhotoService,
+        private activatedRoutes: ActivatedRoute
+    ){}
   
   ngOnInit(): void{
-    this.photoService.listFormUser('flavio')
+
+    const username = this.activatedRoutes.snapshot.params.userName;
+
+    this.photoService.listFormUser(username)
     .subscribe(photo => {photo[0].description; this.photos = photo})
   }
 
