@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { Photo } from '../photo/Photo';
+import { PhotoService } from '../photo/service.photo';
 
 @Component({
   selector: 'ap-photo-list',
@@ -16,10 +17,17 @@ export class PhotoListComponent implements OnInit, OnDestroy{
   photos : Photo[] = [];
   filter : string = '';
   debounce: Subject<string> = new Subject<string>();
+  hasMore : boolean = true;
+  currentPage: number = 1;
+  userName: string = '';
 
-  constructor(private activatedRoutes: ActivatedRoute){}
+  constructor(
+    private activatedRoutes: ActivatedRoute,
+    private photoService : PhotoService
+  ){}
   
   ngOnInit(): void{
+    this.userName = this.activatedRoutes.snapshot.params.userName;
     this.photos = this.activatedRoutes.snapshot.data['photos'];
     this.debounce
         .pipe(debounceTime(300))
@@ -27,7 +35,18 @@ export class PhotoListComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
-    this.debounce.unsubscribe()
+    this.debounce.unsubscribe();
+  }
+
+  load(){
+    this.photoService
+      .listFormUserPaginated(this.userName, ++this.currentPage)
+      .subscribe(photos => {
+        this.photos = this.photos.concat(photos);
+        if(!photos.length){
+          this.hasMore = false;
+        }
+      });
   }
 
 }
