@@ -16,10 +16,10 @@ export class PhotoListComponent implements OnInit, OnDestroy{
   
   photos : Photo[] = [];
   filter : string = '';
-  debounce: Subject<string> = new Subject<string>();
+  debounce : Subject<string> = new Subject<string>();
   hasMore : boolean = true;
-  currentPage: number = 1;
-  userName: string = '';
+  currentPage : number = 1;
+  userName : string = '';
 
   constructor(
     private activatedRoutes: ActivatedRoute,
